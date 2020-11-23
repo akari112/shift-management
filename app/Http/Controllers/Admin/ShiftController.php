@@ -122,7 +122,7 @@ class ShiftController extends Controller
     {
         $days = new Shiftdays;
         // 3ヶ月前から
-        $lists = $days->getconListsAdmin(strtotime("-60 day"));
+        $lists = $days->getListsAdmin(strtotime("-60 day"));
 
 		return view('admin.shift.confirm.index', [
 			"lists" => $lists
