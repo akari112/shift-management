@@ -1,8 +1,8 @@
 @extends('layouts.app')
 @section('content')
 
-<h1>確定済シフト確認</h1>
-<h3>シフト内容</h3>
+<h2 class="title">確定済シフト確認</h2>
+<h4 class="title">シフト内容</h4>
 
 <div class="container">
   @if(isset($okShifts) && !empty($okShifts))
@@ -10,11 +10,12 @@
         @foreach($okShifts as $okShift)
 
           <strong> {{ $okShift['day'] }}</strong><br>
-
-          <?php $names = explode(',',$okShift['name']) ?>
-          @foreach($names as $name)
-            <li>{{ $name }}</li>
-          @endforeach
+          <div class="names">
+            <?php $names = explode(',',$okShift['name']) ?>
+            @foreach($names as $name)
+              <li>{{ $name }}</li>
+            @endforeach
+          </div>
 
           <br>
         @endforeach
@@ -25,9 +26,10 @@
   @endif
 </div>
 
-<button class="btn" onClick="history.back()">戻る</button>
-
-<a class="btn" href="{{ route('admin.top') }}">トップへ</a>
-<a href="{{ route('admin.logout') }}">ログアウト</a>
+<div class="btns">
+  <button class="btn back" onClick="history.back()">戻る</button>
+  <a class="btn top" href="{{ route('admin.top') }}">トップへ</a>
+  <a class="btn logout" href="{{ route('admin.logout') }}">ログアウト</a>
+</div>
 
 @endsection

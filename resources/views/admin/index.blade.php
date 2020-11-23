@@ -49,11 +49,8 @@
     </div>
   </div>
   
-  <button class="btn logout-button">
-  <a href="{{ route('admin.logout') }}">
-    <span><i class="fas fa-sign-out-alt"></i></span>
-    ログアウト</a>
-  </button>
+  <a class="btn logout" href="{{ route('admin.logout') }}">
+  <span><i class="fas fa-sign-out-alt"></i></span>ログアウト</a>
 
 </section>
 

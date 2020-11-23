@@ -1,49 +1,52 @@
 @extends('layouts.app')
 @section('content')
 
-<h1>新規従業員登録</h1>
+<h2 class="title">新規従業員登録</h2>
 <!-- エラー出力 -->
 @if ($errors->any())
-    <ul class="error-box">
-        @foreach ($errors->all() as $error)
-            <li>{{ $error }}</li>
-        @endforeach
-    </ul>
+  <ul class="error-box">
+    @foreach ($errors->all() as $error)
+      <li>{{ $error }}</li>
+    @endforeach
+  </ul>
 @endif
 
-<form method="post">
-@csrf
+<form method="post" class="password">
+  @csrf
 
-<ul>
+  <ul>
+    <li>＊がある項目は必須事項です。</li><br>
     <li>
-        <label>名前</label>
-        <input type="text" name="username" value="{{ $user->username }}">
+      <label for="name">*名前</label><br>
+      <input id="name" type="text" name="username" value="{{ $user->username }}">
     </li>
     <li>
-        <label>電話番号</label>
-        <input type="text" name="tel" value="{{ $user->tel }}">
+      <label for="tel">電話番号</label><br>
+      <input id="tel" type="text" name="tel" value="{{ $user->tel }}">
     </li>
     <li>
-        <label>学年</label>
-        <input type="number" name="grade" value="{{ $user->grade }}">
+      <label for="grade">学年(半角数字)</label><br>
+      <input id="grade" type="number" name="grade" value="{{ $user->grade }}">
     </li>
     <li>
-        <label>所属</label>
-        <input type="text" name="belong" value="{{ $user->belong }}">
+      <label for="be">所属</label><br>
+      <input id="be" type="text" name="belong" value="{{ $user->belong }}">
     </li>
     <li>
-        <label>パスワード</label>
-        <input type="password" name="password"> （8～30文字）
+      <label for="pass">*パスワード(8文字以上)</label><br>
+      <input id="pass" type="password" name="password">
     </li>
     <li>
-        <label>パスワード（確認用)</label>
-        <input type="password" name="password_confirmation">
+      <label for="pass2">*パスワード(確認用)</label><br>
+      <input id="pass2" type="password" name="password_confirmation">
     </li>
-</ul>
+  </ul>
 
-<input type="submit" value="確認画面へ">
+  <input class="btn con" type="submit" value="確認画面へ">
 </form>
 
-<a class="btn" href="{{ route('admin.top') }}">TOPへ戻る</a>
-
+<div class="btns">
+  <a class="btn top" href="{{ route('admin.top') }}">トップへ</a>
+  <a class="btn logout" href="{{ route('admin.logout') }}">ログアウト</a>
+</div>
 @endsection

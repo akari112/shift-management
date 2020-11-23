@@ -9,7 +9,7 @@
         <div class="icon">  
           <i class="fas fa-edit icon"></i>
         </div>
-        <a class="" href="{{ route('user.shift.desire.index') }}">シフト希望提出</a>
+        <a href="{{ route('user.shift.desire.index') }}">シフト希望提出</a>
       </div>
       <div class="contents col-6 sa">
         <div class="icon">
@@ -44,11 +44,8 @@
     </div>
   </div>
   
-  <button class="btn logout-button">
-  <a href="{{ route('user.logout') }}">
-    <span><i class="fas fa-sign-out-alt"></i></span>
-    ログアウト</a>
-  </button>
+  <a class="btn logout" href="{{ route('user.logout') }}">
+  <span><i class="fas fa-sign-out-alt"></i></span>ログアウト</a>
 
 </section>
 
