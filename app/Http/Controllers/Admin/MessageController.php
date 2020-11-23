@@ -17,7 +17,7 @@ class MessageController extends Controller
     //送信メッセージ一覧
     public function send()
     {
-        $messages = Message::latest()->with('user')->where('user_id', '>', 0)->get();
+        $messages = Message::latest()->with('user')->where('user_id', '>', 0)->paginate(10);
 
         return view('admin.message.send', compact('messages'));
     }
@@ -25,7 +25,7 @@ class MessageController extends Controller
     //受信メッセージ一覧
     public function receive()
     {
-        $messages = Message::latest()->where('user_id', 0)->get();
+        $messages = Message::latest()->where('user_id', 0)->paginate(10);
         $userlist = User::getUserList();
 
         return view('admin.message.receive', compact('messages', 'userlist'));
@@ -63,7 +63,7 @@ class MessageController extends Controller
     // メッセージの詳細
     public function show(Message $message)
     {
-        return view('user.message.show', compact('message'));
+        return view('admin.message.show', compact('message'));
     }
 
 }

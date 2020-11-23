@@ -16,7 +16,8 @@ class MessageController extends Controller
     //送信メッセージ一覧
     public function send()
     {
-        $messages = Message::latest()->with('user')->where('user_id', 0)->get();
+        // 10件ごとにページネーション
+        $messages = Message::latest()->with('user')->where('user_id', 0)->paginate(10);
 
         return view('user.message.send', compact('messages'));
     }
@@ -24,7 +25,7 @@ class MessageController extends Controller
     //受信メッセージ一覧
     public function receive()
     {
-        $messages = auth()->user()->messages()->latest()->get();
+        $messages = auth()->user()->messages()->latest()->paginate(10);
 
         return view('user.message.receive', compact('messages'));
     }
