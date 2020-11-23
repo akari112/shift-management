@@ -28,8 +28,10 @@
 @endforeach
 </table>
 
+{{ $messages->links() }}
+
 <div class="btns">
-  <button class="btn back" onClick="history.back()">戻る</button>
+  <a class="btn back" href="{{ route('admin.message.index') }}">戻る</a>
   <a class="btn top" href="{{ route('admin.top') }}">トップへ</a>
   <a class="btn logout" href="{{ route('admin.logout') }}">ログアウト</a>
 </div>

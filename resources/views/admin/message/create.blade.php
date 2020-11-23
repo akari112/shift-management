@@ -14,7 +14,7 @@
 
 <!-- 成功時のメッセージ -->
 @if (session('status'))
-  <p class="info-box">{{ session('status') }}</p>
+  <p class="error-box">{{ session('status') }}</p>
 @endif
 
 <form method="post" class="create_message">
