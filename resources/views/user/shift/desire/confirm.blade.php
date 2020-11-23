@@ -7,6 +7,8 @@
 <form method="post" action="{{ route('user.shift.desire.ok') }}">
 @csrf
 
+<input type="hidden" name="exist" value="{{ $exist }}">
+
   <div class="container">
     <ul>
     @foreach(array_map(NULL, $real, $real2) as [ $rea, $rea2 ])

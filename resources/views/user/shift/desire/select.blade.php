@@ -6,6 +6,7 @@
 
 <form method="post" action="{{ route('user.shift.desire.confirm') }}">
 @csrf
+  <input type="hidden" name="exist" value="{{ $exist }}">
 
   <div class="container">
     <ul>
@@ -16,11 +17,9 @@
     @endforeach
     </ul>
     <button class="btn con" type="submit">確認する</button>
-
   </div>
 
 </form>
-
 
 <div class="btns">
   <button class="btn back" onClick="history.back()">戻る</button>

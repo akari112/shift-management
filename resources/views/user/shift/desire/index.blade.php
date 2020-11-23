@@ -6,9 +6,9 @@
 
 <div class="container">
   <ul>
-    @foreach($lists as $list)
-      <?php $select = str_replace('/', '-', $list);?>
-      <li><a href="{{ route('user.shift.desire.select', $select) }}"> {{ $list }} </a></li>
+  @foreach(array_map(NULL, $lists, $realLists) as [ $lists, $realLists ])
+      <?php $select = str_replace('/', '-', $lists);?>
+      <li><a href="{{ route('user.shift.desire.select', $select) }}"> {{ $realLists }} </a></li>
     @endforeach
   </ul>
 </div>
