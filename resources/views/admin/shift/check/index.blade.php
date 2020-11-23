@@ -1,8 +1,8 @@
 @extends('layouts.app')
 @section('content')
 
-<h1>シフト希望確認</h1>
-<h3>確認対象選択</h3>
+<h2 class="title">シフト希望確認</h2>
+<h4 class="title">確認対象選択</h4>
 
 <div class="container">
   <ul>
@@ -13,7 +13,9 @@
   </ul>
 </div>
 
-<a class="btn" href="{{ route('admin.top') }}">トップへ戻る</a>
-<a href="{{ route('admin.logout') }}">ログアウト</a>
+<div class="btns">
+  <a class="btn top" href="{{ route('admin.top') }}">トップへ</a>
+  <a class="btn logout" href="{{ route('admin.logout') }}">ログアウト</a>
+</div>
 
 @endsection
