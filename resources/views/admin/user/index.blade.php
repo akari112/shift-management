@@ -26,6 +26,8 @@
 @endforeach
 </table>
 
+{{ $users->links() }}
+
 <div class="btns">
   <a class="btn top" href="{{ route('admin.top') }}">トップへ</a>
   <a class="btn logout" href="{{ route('admin.logout') }}">ログアウト</a>
