@@ -23,8 +23,19 @@ class ShiftController extends Controller
         // 5日前にシフト提出できなくする
         $lists = $days->getLists(strtotime("+5 day"));
 
+        // 提出済みと未提出で分ける
+        foreach($lists as $list){
+            $days = explode('ー',$list);
+            if(Shift::whereBetween('day', [$days[0], $days[1]])->where('user_id',auth()->id())->exists()){
+                $realLists[] = $days[0].'ー'.$days[1].'(提出済み)';
+            }else{
+                $realLists[] = $days[0].'ー'.$days[1].'　　　　　';
+            }
+        }
+
 		return view('user.shift.desire.index', [
-			"lists" => $lists
+			"lists" => $lists,
+            "realLists" => $realLists
 		]);
     }
 
@@ -32,21 +43,31 @@ class ShiftController extends Controller
     public function desireSelect($selected)
     {
         $days = explode('ー',$selected);
+        // 提出済みかどうかデフォルトはno
+        $exist = "no";
+
+        // 提出済みと未提出で分ける
+        if(Shift::whereBetween('day', [$days[0], $days[1]])->where('user_id',auth()->id())->exists()){
+            $exist = $selected;
+        }
         
         $day = new Shiftdays;
         list($days, $days2) = $day->dayLists($days[0],$days[1]);
 
         return view('user.shift.desire.select', [
 			"days" => $days,
-			"days2" => $days2
+            "days2" => $days2,
+            "exist" => $exist
 		]);
     }
 
     // 希望シフト確認
     public function desireConfirm(Request $request)
     {
+        $exist = $request->input('exist');
 
         $days = $request->input('day');
+        
         foreach($days as $day){
             $one = explode(',',$day);
             $real[] = $one[0];
@@ -55,28 +76,61 @@ class ShiftController extends Controller
 
         return view('user.shift.desire.confirm', [
 			"real" => $real,
-			"real2" => $real2
+            "real2" => $real2,
+            "exist" => $exist
 		]);
     }
 
     // 希望シフトDB登録
     public function desireOk(Request $request, Shift $shift)
     {
+        $exist = $request->input('exist');
 
         $days = $request->input('days');
 
-        foreach($days as $day){
-            
-            $data = [];
-            $data = [
-                'user_id' => auth()->id(),
-                'day' => $day,
-                'desired' => 1,
-                'created_at' => now(),
-                'updated_at' => now()
-            ];
-            $shift->insert($data);
+        // 提出済みではない場合
+        if($exist === 'no' || empty($exist)){
+            foreach($days as $day){
+                
+                $data = [];
+                $data = [
+                    'user_id' => auth()->id(),
+                    'day' => $day,
+                    'desired' => 1,
+                    'created_at' => now(),
+                    'updated_at' => now()
+                ];
+                $shift->insert($data);
+            }
+
+        // シフトが提出済みの場合
+        }else{
+            $exists = explode('ー',$exist);
+
+            // 提出済みのシフト希望を全て0に変更
+            Shift::whereBetween('day', [$exists[0], $exists[1]])->where('user_id',auth()->id())->update(['desired'=> 0]);
+
+            foreach($days as $day){
+                // 提出済みの日付の場合(更新)
+                if(Shift::where('day', $day)->where('user_id',auth()->id())->exists()){
+                    Shift::where('day', $day)->where('user_id',auth()->id())->update(['desired'=> 1]);
+
+                // 提出していない日付の場合(追加)
+                }else{
+                    $data = [];
+                    $data = [
+                        'user_id' => auth()->id(),
+                        'day' => $day,
+                        'desired' => 1,
+                        'created_at' => now(),
+                        'updated_at' => now()
+                    ];
+                    $shift->insert($data);
+                }
+            }
+
         }
+        $exist = '';
 
         return view('user.shift.desire.ok');
     }
