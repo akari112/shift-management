@@ -17,7 +17,7 @@ class CreateUsersTable extends Migration
             $table->bigIncrements('id');
             $table->string('username');
             $table->string('tel')->nullable();
-            $table->unsignedBigInteger('grade');
+            $table->unsignedBigInteger('grade')->nullable();
             $table->string('belong')->nullable();
             $table->string('password');
             $table->rememberToken();
