@@ -11,8 +11,13 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        //デモユーザー10件
-        factory(App\User::class, 10)->create();
+        // デモユーザー12件
+        factory(App\User::class, 12)->create();
+        
+        // シフト前後2ヶ月200件
+        App\User::all()->each(function ($user) {
+            factory(App\Shift::class, 200)->create(['user_id' => $user->id]);
+        });
 
         // 管理者
         factory(App\Admin::class)->create(
@@ -20,7 +25,7 @@ class DatabaseSeeder extends Seeder
         );
         // ユーザーにメッセージを登録
         App\User::all()->each(function ($user) {
-            factory(App\Message::class,$user->id % 4)->create(['user_id' => $user->id]);
+            factory(App\Message::class,$user->id % 30)->create(['user_id' => $user->id]);
         });
     }
 }
